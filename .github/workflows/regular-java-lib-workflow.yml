@@ -75,7 +75,7 @@ jobs:
         uses: ./.github/actions/setup-jdk
         with:
           java-distribution: ${{ inputs.java-distribution }}
-          java-version: ${ inputs.java-version }
+          java-version: ${{ inputs.java-version }}
 
       - name: Setup JFrog CLI - Auth Token
         uses: ./.github/actions/setup-and-config-jfrog
