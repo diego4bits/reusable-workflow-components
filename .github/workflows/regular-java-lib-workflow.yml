@@ -80,11 +80,11 @@ jobs:
       - name: Setup JFrog CLI - Auth Token
         uses: ./.github/actions/setup-and-config-jfrog
         with:
-          jfrog-url: ${{ inputs.jf-url }}
+          jf-url: ${{ inputs.jf-url }}
           jf-access-token: ${{ inputs.jf-access-token }}
-          server-id: 'my-server'
-          repo-resolve-releases: 'libs-release'
-          repo-resolve-snapshots: 'libs-snapshot'
+          jf-server-id-resolve: ${{ inputs.jf-server-id-resolve }}
+          jf-repo-resolve-releases: ${{ inputs.jf-repo-resolve-releases }}
+          jf-repo-resolve-snapshots: ${{ inputs.jf-repo-resolve-snapshots }}
 
     # --------------------------------------------------------------------------------------------------------     
     # "Actual" steps of the workflow - Commented out for now only to show the scaffolding of the workflow.
