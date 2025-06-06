@@ -72,11 +72,11 @@ jobs:
           # el código nuevo, especialmente en Pull Requests (aunque con workflow_dispatch es menos crítico para PRs).
           fetch-depth: 0
 
-      # - name: Setup JDK
-      #   uses: diego4bits/reusable-workflow-components/.github/actions/setup-jdk@main
-      #   with:
-      #     java-distribution: ${{ inputs.java-distribution }}
-      #     java-version: ${{ inputs.java-version }}
+      - name: Setup JDK
+        uses: diego4bits/reusable-workflow-components/.github/actions/setup-jdk@main
+        with:
+          java-distribution: ${{ inputs.java-distribution }}
+          java-version: ${{ inputs.java-version }}
 
       - name: Setup JFrog CLI - Auth Token
         uses: diego4bits/reusable-workflow-components/.github/actions/setup-and-config-jfrog@main
