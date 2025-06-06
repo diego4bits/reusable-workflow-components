@@ -7,7 +7,7 @@ set -euo pipefail
 # Esto asegura que cuando cualquier script busque el comando "java", encontrará
 # la versión correcta dentro del contenedor primero, solucionando el problema
 # de la sobrescritura de JAVA_HOME de forma definitiva.
-export PATH="/opt/jdk/bin:$PATH"
+export JAVA_HOME="/opt/jdk/"
 # --- FIN DE LA SOLUCIÓN ---
 
 
