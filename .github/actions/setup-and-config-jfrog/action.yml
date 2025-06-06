@@ -20,6 +20,7 @@ runs:
         JF_ACCESS_TOKEN: ${{ inputs.jf-access-token }}
 
     - name: Configure Maven with JFrog Artifactory 
+      shell: bash
       run: |
         jfrog rt mvn-config \
           --server-id-resolve="${{ inputs.jf-server-id-resolve}}" \
