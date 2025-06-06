@@ -1,0 +1,28 @@
+name: 'Upload JAR & POM to JFrog'
+description: >
+  Uploads a JAR and its POM to JFrog using JFrog CLI.
+  Using an application token for authentication.
+
+inputs:
+  jar-path:         { description: 'Absolute path to the JAR', required: true }
+  pom-path:         { description: 'Absolute path to the POM', required: true }
+  jf-upload-repo-path: {description: 'Path of the Jfrog Repo that the artifact will be upload', required: true}
+
+runs:
+  using: composite
+  steps:
+
+    - name: Validate artefacts exist
+      shell: bash
+      run: |
+        for f in "${{ inputs.jar-path }}" "${{ inputs.pom-path }}"; do
+          [[ -f "$f" ]] || { echo "::error::$f not found"; exit 1; }
+        done
+
+    - name: Upload artefacts with JFrog CLI
+      shell: bash
+      run: |
+        jf rt upload "${{ inputs.pom-path }}" \
+          "${{ inputs.jf-upload-repo-path }}/" --flat=true
+        jf rt upload "${{ inputs.jar-path }}" \
+          "${{ inputs.jf-upload-repo-path }}" --flat=true

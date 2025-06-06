@@ -1,0 +1,25 @@
+name: 'OWASP Dependency-Check'
+description: >
+  Runs OWASP Dependency-Check inside the offical container and returns the path to the
+  generated report. Fails only when the scanner itself returns a non-zero code.
+
+inputs:
+  scan-args:
+    description: |
+      All flags and options to pass verbatim to
+      /usr/share/dependency-check/bin/dependency-check.sh
+    required: true
+    type: string
+outputs:
+  report-path:
+    description: >
+      Directory or file path where Dependency-Check wrote its reports (HTML /
+      JSON / XML).
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.scan-args }}
+branding:
+  icon: 'shield'
+  color: 'blue'

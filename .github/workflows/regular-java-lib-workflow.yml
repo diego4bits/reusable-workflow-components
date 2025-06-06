@@ -1,0 +1,126 @@
+name: Regular Java Library Workflow
+description: > 
+
+on: 
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      # JFrog CLI Configuration
+      jf-url:
+        description: 'JFrog URL'
+        required: true
+        type: string
+      jf-access-token:
+        description: 'JFrog Access Token'
+        required: true
+        type: string
+      jf-server-id-resolve:
+        description: 'Server ID for JFrog CLI configuration'
+        required: false
+        default: 'my-server'
+        type: string
+      jf-repo-resolve-releases:
+        description: 'Repository for resolving releases'
+        required: false
+        default: 'libs-release'
+        type: string
+      jf-repo-resolve-snapshots:
+        description: 'Repository for resolving snapshots'
+        required: false
+        default: 'libs-snapshot'
+        type: string
+      jf-upload-repo-path:
+        description: 'Path of the JFrog repository where the artifact will be uploaded'
+        required: true
+        type: string
+      # Java Setup Configuration
+      java-distribution:
+        description: 'Java distribution to use (e.g., temurin)'
+        required: false
+        default: 'temurin'
+        type: string
+      java-version: 
+        description: 'Java version to use (e.g., 17)'
+        required: false
+        default: '17'
+        type: string
+      # SonarQube Configuration
+      sonar-host-url:
+        description: 'SonarQube URL'
+        required: true
+        type: string
+      sonar-token:
+        description: 'SonarQube Token'
+        required: true
+        type: string
+      sonar-organization:
+        description: 'SonarQube Organization'
+        required: true
+        type: string
+
+jobs:
+  main-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Setup steps for the workflow
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # fetch-depth: 0 es crucial para que SonarQube pueda analizar correctamente
+          # el código nuevo, especialmente en Pull Requests (aunque con workflow_dispatch es menos crítico para PRs).
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: ./.github/actions/setup-jdk
+        with:
+          java-distribution: ${{ inputs.java-distribution }}
+          java-version: ${ inputs.java-version }
+
+      - name: Setup JFrog CLI - Auth Token
+        uses: ./.github/actions/setup-and-config-jfrog
+        with:
+          jfrog-url: ${{ inputs.jf-url }}
+          jf-access-token: ${{ inputs.jf-access-token }}
+          server-id: 'my-server'
+          repo-resolve-releases: 'libs-release'
+          repo-resolve-snapshots: 'libs-snapshot'
+
+    # --------------------------------------------------------------------------------------------------------     
+    # "Actual" steps of the workflow - Commented out for now only to show the scaffolding of the workflow.
+    # --------------------------------------------------------------------------------------------------------   
+  
+      # - name: Build & Test Using Maven & JFrog
+      #   uses: ./.github/actions/build-and-test-mvn@v1
+
+      # - name: SonarQube Scan
+      #   uses: ./.github/actions/sonarqube-scan@v1
+      #   with:
+      #     sonar-project-key: 'my-java-library'
+      #     sonar-project-name: 'My Java Library'
+      #     sonar-project-version: '1.0.0'
+      #     sonar-host-url: ${{ secrets.SONARQUBE_URL }}
+      #     sonar-token: ${{ secrets.SONARQUBE_TOKEN }}
+
+      # - name: Dependecy Check Scan
+      #   uses: ./.github/actions/dependency-check@v1
+      #   with:
+      #     scan-args: |
+      #       --disableRetireJS
+      #       --scan "**/*.java"
+      #       --format HTML
+
+      # Just a Place holder for the Checkmarx Scan step
+      # - name: Checkmarx Scan
+      #   uses: java/libraries/actions/checkmarx-scan@v1
+      # Just a Place holder for the Semantic Versioning Scan step
+      #- name: Semantic Versioning
+      #  uses: java/libraries/actions/semantic-versioning@v1
+      # Just a Place holder for the Build & Test Tag step
+      # - name: Build & Test Tag
+      # Just a Place holder for the Upload Artifacts To JFrog step
+      # - name : Upload Artifacts To JFrog
+      #   uses: ./.github/libraries/actions/upload-to-jfrog-jar-pom@v1
+
+        
+  

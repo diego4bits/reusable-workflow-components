@@ -1,0 +1,9 @@
+name: 'Build & Test Using Maven & JFrog'
+description: >
+  This action builds a Java project using Maven resolving the dependendencies using a JFrog repository, runs tests, and make the artifacts available for future steps.
+
+runs:
+  using: composite
+  steps:
+    - name: Run Maven build without collecting build-info
+      run: jfrog rt mvn "clean install -B"

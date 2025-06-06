@@ -1,0 +1,31 @@
+name: 'JFrog Maven Deployer - Auth Token'
+description: >
+  Uploads a JAR and its POM to Artifactory using only JFrog CLI.
+  JFrog CLI fetches short-lived OIDC credentials – no static tokens.
+  Assumes the repository is already configured JDK and checkout the code.
+
+inputs:
+  sonar-host-url:
+    description: 'SonarQube URL'
+    required: true
+    type: string
+  sonar-token:  
+    description: 'SonarQube Token'
+    required: true
+    type: string
+  sonar-organization:
+    description: 'SonarQube Organization'
+    required: true
+    type: string
+
+runs:
+  using: composite
+  steps:
+
+    - name: Checkout code
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+        SONAR_HOST_URL: ${{ inputs.sonar-host-url }}
+        SONAR_ORGANIZATION: ${{ inputs.sonar-organization }} 

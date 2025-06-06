@@ -1,0 +1,27 @@
+name: 'Setup JFrog CLI - Auth Token'
+description: >
+  This action sets up the JFrog CLI with an access token for authentication.
+  It is used to configure the JFrog CLI for subsequent actions that require JFrog access.
+
+inputs:
+  jf-url:        { description: 'https://acme.jfrog.io', required: true }
+  jf-access-token: { description: 'JFrog Access Token', required: true }
+  jf-server-id-resolve:    { description: 'Server ID for JFrog CLI configuration', required: false, default: 'my-server' }
+  jf-repo-resolve-releases: { description: 'Repository for resolving releases', required: false, default: 'libs-release' }
+  jf-repo-resolve-snapshots: { description: 'Repository for resolving snapshots', required: false, default: 'libs-snapshot' }
+
+runs:
+  using: composite
+  steps:
+    - name: Setup JFrog CLI 
+      uses: jfrog/setup-jfrog-cli@v4
+      env:
+        JF_URL: ${{ inputs.jf-url }}
+        JF_ACCESS_TOKEN: ${{ inputs.jf-access-token }}
+
+    - name: Configure Maven with JFrog Artifactory 
+      run: |
+        jfrog rt mvn-config \
+          --server-id-resolve="${{ inputs.jf-server-id-resolve}}" \
+          --repo-resolve-releases="${{ inputs.jf-repo-resolve-releases }}" \
+          --repo-resolve-snapshots="${{ inputs.jf-repo-resolve-snapshots }}"
