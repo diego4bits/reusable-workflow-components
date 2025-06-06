@@ -10,10 +10,6 @@ on:
         description: 'JFrog URL'
         required: true
         type: string
-      jf-access-token:
-        description: 'JFrog Access Token'
-        required: true
-        type: string
       jf-server-id-resolve:
         description: 'Server ID for JFrog CLI configuration'
         required: false
@@ -49,14 +45,19 @@ on:
         description: 'SonarQube URL'
         required: true
         type: string
-      sonar-token:
-        description: 'SonarQube Token'
-        required: true
-        type: string
       sonar-organization:
         description: 'SonarQube Organization'
         required: true
         type: string
+    secrets:
+      jf-access-token:
+        description: 'JFrog Access Token'
+        required: true
+      sonar-token:
+        description: 'SonarQube Token'
+        required: true
+        
+
 
 jobs:
   main-job:
