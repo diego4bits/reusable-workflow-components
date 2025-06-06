@@ -6,4 +6,5 @@ runs:
   using: composite
   steps:
     - name: Run Maven build without collecting build-info
+      shell: bash
       run: jfrog rt mvn "clean install -B"
