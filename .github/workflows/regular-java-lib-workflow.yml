@@ -83,7 +83,7 @@ jobs:
         with:
           jf-url: ${{ inputs.jf-url }}
           jf-access-token: ${{ inputs.jf-access-token }}
-          jf-server-id-resolve: ${{ inputs.jf-server-id-resolve }}
+          #jf-server-id-resolve: ${{ inputs.jf-server-id-resolve }}
           jf-repo-resolve-releases: ${{ inputs.jf-repo-resolve-releases }}
           jf-repo-resolve-snapshots: ${{ inputs.jf-repo-resolve-snapshots }}
 
