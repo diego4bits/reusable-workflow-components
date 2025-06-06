@@ -22,7 +22,7 @@ runs:
     - name: Configure Maven with JFrog Artifactory 
       shell: bash
       run: |
-        jfrog rt mvn-config \
+        jfrog mvn-config \
           --repo-resolve-releases="${{ inputs.jf-repo-resolve-releases }}" \
           --repo-resolve-snapshots="${{ inputs.jf-repo-resolve-snapshots }}" \
   #       --server-id-resolve="${{ inputs.jf-server-id-resolve}}" 

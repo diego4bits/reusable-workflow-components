@@ -10,20 +10,20 @@ on:
         description: 'JFrog URL'
         required: true
         type: string
-      jf-server-id-resolve:
-        description: 'Server ID for JFrog CLI configuration'
-        required: false
-        default: 'my-server'
-        type: string
+      # jf-server-id-resolve:
+      #   description: 'Server ID for JFrog CLI configuration'
+      #   required: false
+      #   default: 'my-server'
+      #   type: string
       jf-repo-resolve-releases:
         description: 'Repository for resolving releases'
         required: false
-        default: 'libs-release'
+        default: 'maven'
         type: string
       jf-repo-resolve-snapshots:
         description: 'Repository for resolving snapshots'
         required: false
-        default: 'libs-snapshot'
+        default: 'maven'
         type: string
       jf-upload-repo-path:
         description: 'Path of the JFrog repository where the artifact will be uploaded'
