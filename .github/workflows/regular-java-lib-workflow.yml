@@ -73,13 +73,13 @@ jobs:
           fetch-depth: 0
 
       - name: Setup JDK
-        uses: ./.github/actions/setup-jdk
+        uses: diego4bits/reusable-workflow-components/.github/actions/setup-jdk@main
         with:
           java-distribution: ${{ inputs.java-distribution }}
           java-version: ${{ inputs.java-version }}
 
       - name: Setup JFrog CLI - Auth Token
-        uses: ./.github/actions/setup-and-config-jfrog
+        uses: diego4bits/reusable-workflow-components/.github/actions/setup-and-config-jfrog@main
         with:
           jf-url: ${{ inputs.jf-url }}
           jf-access-token: ${{ inputs.jf-access-token }}
