@@ -27,7 +27,7 @@ on:
         type: string
       jf-upload-repo-path:
         description: 'Path of the JFrog repository where the artifact will be uploaded'
-        required: true
+        required: false # false meanwhile for testing purposes
         type: string
       # Java Setup Configuration
       java-distribution:
@@ -43,11 +43,11 @@ on:
       # SonarQube Configuration
       sonar-host-url:
         description: 'SonarQube URL'
-        required: true
+        required: false # false meanwhile for testing purposes
         type: string
       sonar-organization:
         description: 'SonarQube Organization'
-        required: true
+        required: false # false meanwhile for testing purposes
         type: string
     secrets:
       jf-access-token:
@@ -55,7 +55,7 @@ on:
         required: true
       sonar-token:
         description: 'SonarQube Token'
-        required: true
+        required: false # false meanwhile for testing purposes
         
 
 
