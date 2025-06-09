@@ -1,0 +1,82 @@
+name: Regular Java Library Workflow
+description: > 
+
+on: 
+  workflow_call:
+    inputs:
+      # JFrog CLI Configuration
+      jf-url:
+        description: 'JFrog URL'
+        required: true
+        type: string
+      jf-repo-resolve-releases:
+        description: 'Repository for resolving releases'
+        required: false
+        default: 'maven'
+        type: string
+      jf-repo-resolve-snapshots:
+        description: 'Repository for resolving snapshots'
+        required: false
+        default: 'maven'
+        type: string
+      jf-upload-repo-path:
+        description: 'Path of the JFrog repository where the artifact will be uploaded'
+        required: true
+        type: string
+      # Java Setup Configuration
+      java-distribution:
+        description: 'Java distribution to use (e.g., temurin)'
+        required: false
+        default: 'temurin'
+        type: string
+      java-version: 
+        description: 'Java version to use (e.g., 17)'
+        required: false
+        default: '17'
+        type: string
+    secrets:
+      jf-access-token:
+        description: 'JFrog Access Token'
+        required: true
+
+
+jobs:
+  main-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Setup steps for the workflow
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # fetch-depth: 0 es crucial para que SonarQube pueda analizar correctamente
+          # el código nuevo, especialmente en Pull Requests (aunque con workflow_dispatch es menos crítico para PRs).
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: diego4bits/reusable-workflow-components/.github/actions/setup-jdk@main
+        with:
+          java-distribution: ${{ inputs.java-distribution }}
+          java-version: ${{ inputs.java-version }}
+
+      - name: Setup JFrog CLI - Auth Token
+        uses: diego4bits/reusable-workflow-components/.github/actions/setup-and-config-jfrog@main
+        with:
+          jf-url: ${{ inputs.jf-url }}
+          jf-access-token: ${{ secrets.jf-access-token }}
+          jf-repo-resolve-releases: ${{ inputs.jf-repo-resolve-releases }}
+          jf-repo-resolve-snapshots: ${{ inputs.jf-repo-resolve-snapshots }}
+
+    # --------------------------------------------------------------------------------------------------------     
+    # "Actual" steps of the workflow - Commented out for now only to show the scaffolding of the workflow.
+    # --------------------------------------------------------------------------------------------------------   
+      # ✅ ✅ ✅  Working ✅ ✅ ✅  (Only commented out for testing purposes to save time in execution)
+      - name: Build & Test Using Maven & JFrog
+        uses: diego4bits/reusable-workflow-components/.github/actions/build-and-test-mvn@main
+
+      - name: Upload JAR & POM to JFrog
+        uses: diego4bits/reusable-workflow-components/.github/actions/upload-to-jfrog-jar-pom@main
+        with:
+          jar-path: target/*.jar
+          pom-path: target/*.pom
+          jf-upload-repo-path: ${{ inputs.jf-upload-repo-path }}/${{ github.ref_name }}/
