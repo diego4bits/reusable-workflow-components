@@ -122,10 +122,12 @@ jobs:
       # - name: Checkmarx Scan
       #   uses: java/libraries/actions/checkmarx-scan@v1
       # Just a Place holder for the Semantic Versioning Scan step
-      - name: Semantic Release
-        id: semantic_release
-        uses: diego4bits/reusable-workflow-components/.github/actions/semantic-release@main
+      - name: Semantic Release Custom Action
+        uses: MitVo/semantic-release-action@main
+        env:
+          REPO_NAME: "java-dummy-library"
         with:
+          release_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
       # Just a Place holder for the Build & Test Tag step
       # - name: Build & Test Tag
