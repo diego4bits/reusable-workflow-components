@@ -1,0 +1,51 @@
+name: 'Custom Semantic Release for Java'
+description: 'A customized GitHub Action to run semantic-release for Java projects'
+author: 'Your Name or Organization'
+inputs:
+  github_token:
+    description: 'GitHub token for authentication (required)'
+    required: true
+  release_branch:
+    description: 'Branch to perform the release from'
+    required: false
+    default: 'master'
+  maven_settings_path:
+    description: 'Path to Maven settings.xml (if needed)'
+    required: false
+outputs:
+  release_version:
+    description: 'The version of the release created by semantic-release'  
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Install semantic-release and plugins
+      run: |
+        echo "Copying semantic-release configuration files"
+        cp ${{ github.action_path }}/.releaserc.js ${{ github.workspace }}/.releaserc.js 
+        cp ${{ github.action_path }}/.prerelease-releaserc.js ${{ github.workspace }}/.prerelease-releaserc.js
+        echo "Copying package.json"
+        cp ${{ github.action_path }}/package.json ${{ github.workspace }}/package.json
+        echo "Copying template files"
+        cp ${{ github.action_path }}/templates ${{ github.workspace }}/templates -r
+        echo "Current directory: ${{ github.workspace }}"
+        cd ${{ github.workspace }}
+        echo "Check files in the current directory"
+        ls -la
+        echo "Installing semantic-release and plugins"
+        npm install semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec semantic-release-gitmoji 
+      shell: bash
+    - name: Run semantic-release
+      id: semantic_release
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        MAVEN_SETTINGS_PATH: ${{ inputs.maven_settings_path }}
+      run: |
+        cd ${{ github.workspace }}
+        npx semantic-release 
+        latest_tag=$(git describe --tags --abbrev=0)
+        echo "release_version=${latest_tag}" >> $GITHUB_OUTPUT
+      shell: bash  
