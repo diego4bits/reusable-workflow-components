@@ -121,7 +121,7 @@ jobs:
       #   uses: java/libraries/actions/checkmarx-scan@v1
       # Just a Place holder for the Semantic Versioning Scan step
       - name: Semantic Release Custom Action
-        uses: MitVo/semantic-release-action@main
+        uses: diego4bits/semantic-release-action@main
         env:
           REPO_NAME: ${{ env.REPO_NAME }}
         with:
