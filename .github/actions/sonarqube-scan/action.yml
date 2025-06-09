@@ -57,7 +57,6 @@ runs:
         echo "sonar.java.binaries=${{ inputs.sonar-binaries }}" >> sonar-project.properties
         echo "sonar.sourceEncoding=${{ inputs.sonar-sourceEncoding }}" >> sonar-project.properties
 
-    - name: Checkout code
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@master
       env:
