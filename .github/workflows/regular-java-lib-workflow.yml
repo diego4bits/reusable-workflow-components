@@ -10,11 +10,6 @@ on:
         description: 'JFrog URL'
         required: true
         type: string
-      # jf-server-id-resolve:
-      #   description: 'Server ID for JFrog CLI configuration'
-      #   required: false
-      #   default: 'my-server'
-      #   type: string
       jf-repo-resolve-releases:
         description: 'Repository for resolving releases'
         required: false
@@ -25,10 +20,10 @@ on:
         required: false
         default: 'maven'
         type: string
-      jf-upload-repo-path:
-        description: 'Path of the JFrog repository where the artifact will be uploaded'
-        required: false # false meanwhile for testing purposes
-        type: string
+      # jf-upload-repo-path: This is needed fot the tagged version workflow
+      #   description: 'Path of the JFrog repository where the artifact will be uploaded'
+      #   required: false # false meanwhile for testing purposes
+      #   type: string
       # Java Setup Configuration
       java-distribution:
         description: 'Java distribution to use (e.g., temurin)'
@@ -116,7 +111,10 @@ jobs:
       #     sonar-host-url: ${{ secrets.sonar-host-url }}
       #     sonar-token: ${{ secrets.sonar-token }}
 
-
+      - name: Extract repository name
+        run: |
+          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
 
       # Just a Place holder for the Checkmarx Scan step
       # - name: Checkmarx Scan
@@ -125,7 +123,7 @@ jobs:
       - name: Semantic Release Custom Action
         uses: MitVo/semantic-release-action@main
         env:
-          REPO_NAME: "java-dummy-library"
+          REPO_NAME: ${{ env.REPO_NAME }}
         with:
           release_branch: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
