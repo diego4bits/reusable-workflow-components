@@ -59,13 +59,9 @@ on:
       sonar-host-url:
         description: 'SonarQube URL'
         required: true
-        type: string
       sonar-organization:
         description: 'SonarQube Organization'
         required: true 
-        type: string
-        
-
 
 jobs:
   main-job:
