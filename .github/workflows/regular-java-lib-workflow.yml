@@ -57,6 +57,9 @@ on:
       sonar-organization:
         description: 'SonarQube Organization'
         required: true 
+      semantic-release-bot-token:
+        description: 'GitHub Token for Semantic Release Bot'
+        required: true
 
 jobs:
   main-job:
@@ -126,7 +129,7 @@ jobs:
           REPO_NAME: ${{ env.REPO_NAME }}
         with:
           release_branch: develop
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.semantic-release-bot-token }}
       # Just a Place holder for the Build & Test Tag step
       # - name: Build & Test Tag
       # Just a Place holder for the Upload Artifacts To JFrog step
