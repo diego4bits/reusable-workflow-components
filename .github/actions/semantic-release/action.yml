@@ -8,7 +8,7 @@ inputs:
   release_branch:
     description: 'Branch to perform the release from'
     required: false
-    default: 'master'
+    default: 'main'
   maven_settings_path:
     description: 'Path to Maven settings.xml (if needed)'
     required: false
