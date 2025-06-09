@@ -108,7 +108,7 @@ jobs:
       #       --format HTML
 
       - name: SonarQube Scan
-        uses: ./.github/actions/sonarqube-scan@v1
+        uses: diego4bits/reusable-workflow-components/.github/actions/sonarqube-scan@main
         with:
           sonar-project-key: ${{ inputs.sonar-project-key }}
           sonar-project-name: ${{ inputs.sonar-project-name }}
