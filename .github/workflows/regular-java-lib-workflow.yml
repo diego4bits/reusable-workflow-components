@@ -41,13 +41,13 @@ on:
         default: '17'
         type: string
       # SonarQube Configuration
-      sonar-host-url:
-        description: 'SonarQube URL'
-        required: false # false meanwhile for testing purposes
+      sonar-project-key:
+        description: 'SonarQube Project Key'
+        required: true
         type: string
-      sonar-organization:
-        description: 'SonarQube Organization'
-        required: false # false meanwhile for testing purposes
+      sonar-project-name: 
+        description: 'SonarQube Project Name'
+        required: true
         type: string
     secrets:
       jf-access-token:
@@ -55,7 +55,15 @@ on:
         required: true
       sonar-token:
         description: 'SonarQube Token'
-        required: false # false meanwhile for testing purposes
+        required: true 
+      sonar-host-url:
+        description: 'SonarQube URL'
+        required: true
+        type: string
+      sonar-organization:
+        description: 'SonarQube Organization'
+        required: true 
+        type: string
         
 
 
@@ -103,14 +111,14 @@ jobs:
       #       --scan "**/*.java"
       #       --format HTML
 
-      # - name: SonarQube Scan
-      #   uses: ./.github/actions/sonarqube-scan@v1
-      #   with:
-      #     sonar-project-key: 'my-java-library'
-      #     sonar-project-name: 'My Java Library'
-      #     sonar-project-version: '1.0.0'
-      #     sonar-host-url: ${{ secrets.SONARQUBE_URL }}
-      #     sonar-token: ${{ secrets.SONARQUBE_TOKEN }}
+      - name: SonarQube Scan
+        uses: ./.github/actions/sonarqube-scan@v1
+        with:
+          sonar-project-key: ${{ inputs.sonar-project-key }}
+          sonar-project-name: ${{ inputs.sonar-project-name }}
+          sonar-organization: ${{ secrets.sonar-organization }}
+          sonar-host-url: ${{ secrets.sonar-host-url }}
+          sonar-token: ${{ secrets.sonar-token }}
 
 
 

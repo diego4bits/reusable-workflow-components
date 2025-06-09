@@ -17,10 +17,44 @@ inputs:
     description: 'SonarQube Organization'
     required: true
     type: string
+  sonar-project-key:
+    description: 'SonarQube Project Key'
+    required: true
+    type: string
+  sonar-project-name:
+    description: 'SonarQube Project Name'
+    required: true
+    type: string
+  sonar-sources:
+    description: 'SonarQube Source Directory'
+    required: false
+    default: 'src/main/java'
+    type: string
+  sonar-tests:  
+    description: 'SonarQube Test Directory'
+    required: false
+    default: 'src/test/java'
+  sonar-binaries:
+    description: 'SonarQube Binaries Directory'
+    required: false
+    default: 'target/'
+  sonar-sourceEncoding:
+    description: 'SonarQube Source Encoding'
+    required: false
+    default: 'UTF-8'
 
 runs:
   using: composite
   steps:
+    - name: Create sonar-project.properties
+      run: |
+        echo "sonar.projectKey=${{ inputs.sonar-project-key }}" > sonar-project.properties
+        echo "sonar.projectName=${{ inputs.sonar-project-name }}" >> sonar-project.properties
+        echo "sonar.organization=${{ inputs.sonar-organization }}" >> sonar-project.properties
+        echo "sonar.sources=${{ inputs.sonar-sources }}" >> sonar-project.properties # Tus fuentes están en main/java
+        echo "sonar.tests=${{ inputs.sonar-tests }}" >> sonar-project.properties     # Tus tests están en test/java
+        echo "sonar.java.binaries=${{ inputs.sonar-binaries }}" >> sonar-project.properties
+        echo "sonar.sourceEncoding=${{ inputs.sonar-sourceEncoding }}" >> sonar-project.properties
 
     - name: Checkout code
     - name: SonarQube Scan
