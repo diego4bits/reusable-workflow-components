@@ -93,9 +93,15 @@ jobs:
     # --------------------------------------------------------------------------------------------------------     
     # "Actual" steps of the workflow - Commented out for now only to show the scaffolding of the workflow.
     # --------------------------------------------------------------------------------------------------------   
-      # ✅ ✅ ✅  Working ✅ ✅ ✅  (Only commented out for testing purposes to save time in execution)
-      # - name: Build & Test Using Maven & JFrog
-      #   uses: diego4bits/reusable-workflow-components/.github/actions/build-and-test-mvn@main
+      ✅ ✅ ✅  Working ✅ ✅ ✅  (Only commented out for testing purposes to save time in execution)
+      - name: Build & Test Using Maven & JFrog
+        uses: diego4bits/reusable-workflow-components/.github/actions/build-and-test-mvn@main
+
+      - name: List everything in the current directory
+        run: |
+          echo "Current directory: ${{ github.workspace }}"
+          ls -la
+          ls target/
       # ✅ ✅ ✅  Working ✅ ✅ ✅  (Only commented out for testing purposes to save time in execution)
       # REMEMBER THE JAVA_HOME ERROR
       # - name: Dependecy Check Scan
@@ -114,23 +120,24 @@ jobs:
       #     sonar-organization: ${{ secrets.sonar-organization }}
       #     sonar-host-url: ${{ secrets.sonar-host-url }}
       #     sonar-token: ${{ secrets.sonar-token }}
-
-      - name: Extract repository name
-        run: |
-          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-          echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
+      # ✅ ✅ ✅  Working ✅ ✅ ✅  (Only commented out for testing purposes to save time in execution)
+      # - name: Extract repository name
+      #   run: |
+      #     REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+      #     echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
 
       # Just a Place holder for the Checkmarx Scan step
       # - name: Checkmarx Scan
       #   uses: java/libraries/actions/checkmarx-scan@v1
       # Just a Place holder for the Semantic Versioning Scan step
-      - name: Semantic Release Custom Action
-        uses: diego4bits/semantic-release-action@main
-        env:
-          REPO_NAME: ${{ env.REPO_NAME }}
-        with:
-          release_branch: develop
-          github_token: ${{ secrets.semantic-release-bot-token }}
+      # ✅ ✅ ✅  Working ✅ ✅ ✅  (Only commented out for testing purposes to save time in execution)
+      # - name: Semantic Release Custom Action
+      #   uses: diego4bits/semantic-release-action@main
+      #   env:
+      #     REPO_NAME: ${{ env.REPO_NAME }}
+      #   with:
+      #     release_branch: develop
+      #     github_token: ${{ secrets.semantic-release-bot-token }}
       # Just a Place holder for the Build & Test Tag step
       # - name: Build & Test Tag
       # Just a Place holder for the Upload Artifacts To JFrog step
