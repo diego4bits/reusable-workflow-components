@@ -78,5 +78,5 @@ jobs:
         uses: diego4bits/reusable-workflow-components/.github/actions/upload-to-jfrog-jar-pom@main
         with:
           jar-path: target/*.jar
-          pom-path: target/*.pom
+          pom-path: ./pom.xml
           jf-upload-repo-path: ${{ inputs.jf-upload-repo-path }}/${{ github.ref_name }}/
