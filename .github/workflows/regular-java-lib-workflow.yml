@@ -73,6 +73,7 @@ jobs:
           # fetch-depth: 0 es crucial para que SonarQube pueda analizar correctamente
           # el código nuevo, especialmente en Pull Requests (aunque con workflow_dispatch es menos crítico para PRs).
           fetch-depth: 0
+          token: ${{ secrets.semantic-release-bot-token }}
 
       - name: Setup JDK
         uses: diego4bits/reusable-workflow-components/.github/actions/setup-jdk@main
