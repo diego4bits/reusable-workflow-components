@@ -2,9 +2,30 @@ name: 'Build & Test Using Maven & JFrog'
 description: >
   This action builds a Java project using Maven resolving the dependendencies using a JFrog repository, runs tests, and make the artifacts available for future steps.
 
+outputs:
+  jar-path:
+    description: "Absolute path to the generated JAR file"
+    value: ${{ steps.get_paths.outputs.jar }}
+  pom-path:
+    description: "Absolute path to the project's pom.xml file"
+    value: ${{ steps.get_paths.outputs.pom }}
+
 runs:
   using: composite
   steps:
     - name: Run Maven build without collecting build-info
       shell: bash
       run: jfrog mvn clean install -B
+
+    - name: Get artifact paths
+      id: get_paths
+      shell: bash
+      run: |
+        # Encuentra el .jar en target (excluyendo .original) y obtiene su ruta absoluta
+        JAR_PATH=$(find "$(pwd)/target" -type f -name "*.jar" ! -name "*.original")
+        
+        # Obtiene la ruta absoluta del pom.xml
+        POM_PATH=$(readlink -f ./pom.xml)
+        
+        echo "jar=${JAR_PATH}" >> $GITHUB_OUTPUT
+        echo "pom=${POM_PATH}" >> $GITHUB_OUTPUT
