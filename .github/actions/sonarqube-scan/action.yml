@@ -1,8 +1,9 @@
-name: 'JFrog Maven Deployer - Auth Token'
+name: 'SonarQube Scan'
 description: >
-  Uploads a JAR and its POM to Artifactory using only JFrog CLI.
-  JFrog CLI fetches short-lived OIDC credentials – no static tokens.
-  Assumes the repository is already configured JDK and checkout the code.
+  This action performs a SonarQube scan on your project using the SonarQube Scan Action.
+  It requires a SonarQube server URL, token, organization, project key, and project name.
+  Optionally, you can specify source directories, test directories, binaries directory, and source encoding.
+  Creates the file `sonar-project.properties` in the root of the repository with the necessary configuration.
 
 inputs:
   sonar-host-url:
@@ -52,8 +53,8 @@ runs:
         echo "sonar.projectKey=${{ inputs.sonar-project-key }}" > sonar-project.properties
         echo "sonar.projectName=${{ inputs.sonar-project-name }}" >> sonar-project.properties
         echo "sonar.organization=${{ inputs.sonar-organization }}" >> sonar-project.properties
-        echo "sonar.sources=${{ inputs.sonar-sources }}" >> sonar-project.properties # Tus fuentes están en main/java
-        echo "sonar.tests=${{ inputs.sonar-tests }}" >> sonar-project.properties     # Tus tests están en test/java
+        echo "sonar.sources=${{ inputs.sonar-sources }}" >> sonar-project.properties 
+        echo "sonar.tests=${{ inputs.sonar-tests }}" >> sonar-project.properties     
         echo "sonar.java.binaries=${{ inputs.sonar-binaries }}" >> sonar-project.properties
         echo "sonar.sourceEncoding=${{ inputs.sonar-sourceEncoding }}" >> sonar-project.properties
 

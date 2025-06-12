@@ -6,7 +6,6 @@ description: >
 inputs:
   jf-url:        { description: 'https://acme.jfrog.io', required: true }
   jf-access-token: { description: 'JFrog Access Token', required: true }
-  jf-server-id-resolve:    { description: 'Server ID for JFrog CLI configuration', required: false, default: 'my-server' }
   jf-repo-resolve-releases: { description: 'Repository for resolving releases', required: false, default: 'libs-release' }
   jf-repo-resolve-snapshots: { description: 'Repository for resolving snapshots', required: false, default: 'libs-snapshot' }
 
@@ -25,4 +24,3 @@ runs:
         jfrog mvn-config \
           --repo-resolve-releases="${{ inputs.jf-repo-resolve-releases }}" \
           --repo-resolve-snapshots="${{ inputs.jf-repo-resolve-snapshots }}" \
-  #       --server-id-resolve="${{ inputs.jf-server-id-resolve}}" 
